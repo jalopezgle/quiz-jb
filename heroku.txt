@@ -1,0 +1,36 @@
+foreman
+heroku
+heroku login
+heroku create
+heroku apps:rename quiz-2015-jb
+cd ..
+dir
+cd "CURSO HTML5 Y NODEJS"
+DIR
+CD APP
+CD QUIZ
+DIR
+heroku create
+CD APP
+CD APPS
+DIR
+CD QUIZ
+heroku create
+heroku apps:rename quiz-2015-jb
+foreman start
+s
+git add .
+git commit -m "Despliegue en Heroku"
+git push heroku master
+heroku open
+git push heroku master
+heroku open
+git push heroku master
+heroku open
+history heroku.txt
+history
+history >heroku.txt
+hs
+h
+doskey /history
+doskey /history > heroku.txt

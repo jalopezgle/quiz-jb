@@ -1,0 +1,50 @@
+npm start
+npm install --save sqlite3.0.4
+npm rm sqlite
+npm uninstall sequelize
+npm install --save sqlite3@3.0.8
+npm install --save sequelize
+npm install --save pg@4.1.1
+npm start
+npm install
+npm start
+npm uninstall sqlite
+npm rm sqlite3
+npm uninstall sequelize
+npm install --save sqlite3@3.0.4
+npm install --save sqlite3@3.0.6
+npm rm sqlite3
+npm install --save sqlite3@3.0.6
+npm install --save sequelize
+npm start
+npm rm sqlite3
+npm uninstall sequelize
+npm start
+npm install --save sqlite3
+npm install --save sequelize
+npm start
+s
+npm start
+s
+npm start
+S
+npm start
+s
+npm start
+s
+npm start
+s
+npm start
+s
+npm start
+s
+foreman
+npm start
+s
+npm start
+s
+npm start
+s
+doskey /history > node.txt
+npm install --save sequelize
+npm install --save sqlite3
