@@ -17,12 +17,55 @@ exports.load = function (req, res, next, quizId){
 		}).catch(function(error){next (error);})
 };
 
-exports.index = function (req,res){
-	models.Quiz.findAll().then(function(quizes){
+
+
+//No olvide delimitar el string contenido en search con el comodín % antes y después y cambie también los espacios en blanco por %. 
+//De esta forma, si busca "uno dos" ("%uno%dos%"), mostrará todas las preguntas que tengan "uno" seguido de "dos", 
+//independientemente de lo que haya entre "uno" y "dos".
+
+/*exports.index = function (req,res){
+	var search;
+	search = req.query.search;
+	if (search) {
+		search = search.replace(/\s/g,"%");
+		search = "'%"+search+"%'";
+
+	    models.Quiz.findAll({where: ["pregunta like ?", search]}, {order: 'pregunta ASC'}  ).then(function(quizes){
+			res.render('quizes/index.ejs', {quizes: quizes}); 
+    } else {
+	   models.Quiz.findAll().then(function(quizes){
 		res.render('quizes/index.ejs', {quizes: quizes});
+	}
+
+
 	}).catch(function(error) {next (error);})
 };
 
+  models.Quiz.findAll({where: ["pregunta like ?", search]}, {order: 'pregunta ASC'}  ).then(function(quizes){
+			res.render('quizes/index.ejs', {quizes: quizes}); 
+*/
+
+
+exports.index = function (req,res){
+	   var search; 
+	   search = req.query.search;
+	   if (search) {
+		search = search.replace(/\s/g,"%");
+		search = "%"+search+"%";
+		//search = '%Italia%';
+		models.Quiz.findAll({where: ["pregunta like ?", search] }).then(function(quizes){
+		quizes.sort();
+		//quizes.reverse();
+		res.render('quizes/index.ejs', {quizes: quizes});
+	    }).catch(function(error) {next (error);})
+	    return;
+	   }
+
+
+      	models.Quiz.findAll().then(function(quizes){
+		res.render('quizes/index.ejs', {quizes: quizes});
+	    }).catch(function(error) {next (error);})
+};
 /*
 exports.show = function(req,res){
 	models.Quiz.findById(req.params.quizId).then(function(quiz){
@@ -39,7 +82,7 @@ exports.show = function(req,res){
 
 ///////
 /*
-exports.answer = function (req, res ){
+exports.answer = function (req, res ){s
 	models.Quiz.findAll().then(function (quiz) {
 	//if (req.query.respuesta==='Roma'){
 	if (req.query.respuesta===quiz[0].respuesta){	

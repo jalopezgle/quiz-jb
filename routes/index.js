@@ -11,6 +11,8 @@ router.get('/', function(req, res) {
 router.param('quizId', quizController.load);
 
 router.get('/quizes', quizController.index);
+///quizes?search=texto_a_buscar
+router.get('/quizes?search=', quizController.index);
 
 router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
