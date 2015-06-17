@@ -77,3 +77,8 @@ findAll({where: ["pregunta like ?", search]}]
 No olvide delimitar el string contenido en search con el comodín % antes y después y cambie también los espacios en blanco por %. De esta forma, si busca "uno dos" ("%uno%dos%"), mostrará todas las preguntas que tengan "uno" seguido de "dos", independientemente de lo que haya entre "uno" y "dos".
 
 Finalmente, despliegue en heroku su practica y suba los cambios a GitHub.
+
+
+
+-----LISTA TABLAS EN HEROKU
+SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'
