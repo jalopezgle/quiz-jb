@@ -3,7 +3,7 @@ var DATABASE_URL = "postgres://zdvlemedrspqeq:V-JPfw8aFoRrmNC28v4AVp2vgS@ec2-54-
 //DATABASE_URL = postgres://user:passwd@host:port/database
 // SQLite   DATABASE_URL = sqlite://:@:/
 //var 
-//DATABASE_URL = "sqlite://:@:/"
+DATABASE_URL = "sqlite://:@:/"
  process.env.DATABASE_URL = DATABASE_URL;
 var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 var DB_name  = (url[6]||null);
@@ -37,10 +37,10 @@ exports.Quiz = Quiz;
 
 sequelize.sync().then(function (){
 	  Quiz.count().then(function (count){
-	  	 if (count===1){
+	  	 if (count===0){
 	  	 	Quiz.create({
-	  	 		pregunta: 'Capital de Singapur',
-	  	 		respuesta: 'Singapur'
+	  	 		pregunta: 'Capital de Italia',
+	  	 		respuesta: 'Roma'
 	  	 	});
 	  	Quiz.create({
 	  	 		pregunta: 'Capital de Portugal',
