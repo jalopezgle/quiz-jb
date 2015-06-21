@@ -7,9 +7,21 @@ Buscar pregunta:  <p>
 
 <br>
 
-<table>
+<table style="margin: 0 auto;">
 <% var i; for (i=0; i < quizes.length; i++){%>
-     <tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
+     <tr><td align="left"><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a><br> <%= quizes[i].tema %></td>
+     <td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
+     <td>
+     <form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
+     <button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
+     borrar
+     </button>
+     </form>
+     </td>
+     
+     
+     </tr>
+     
 <% } %>
 </table>
 

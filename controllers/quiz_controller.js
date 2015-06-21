@@ -53,7 +53,8 @@ exports.index = function (req,res){
 		search = search.replace(/\s/g,"%");
 		search = "%"+search+"%";
 		//search = '%Italia%';
-		models.Quiz.findAll({where: ["pregunta like ?", search] }).then(function(quizes){
+		models.Quiz.findAll({where: ["(pregunta like ?) or (tema like ?)", search,search] }).then(function(quizes){
+		//models.Quiz.findAll({where: ["(pregunta like ?) and (tema like '%ocio%')", search] }).then(function(quizes){
 		quizes.sort();
 		//quizes.reverse();
 		res.render('quizes/index.ejs', {quizes: quizes, errors: []});
@@ -132,10 +133,36 @@ exports.create = function(req,res){
 		if (err) {
 			res.render('quizes/new',{quiz: quiz, errors:err.errors});
 		}else{
-			quiz.save({fields:["pregunta","respuesta"]}).then (function (){ res.redirect('/quizes')})
+			quiz.save({fields:["pregunta","respuesta","tema"]}).then (function (){ res.redirect('/quizes')})
 		}
 		
 	}).catch(function(error){next(error)});
 
 
+};
+
+exports.edit = function(req,res) {
+	var quiz = req.quiz;
+	res.render('quizes/edit', {quiz: quiz, errors: []});
+};
+
+exports.update = function (req,res) {
+	req.quiz.pregunta =  req.body.quiz.pregunta;
+	req.quiz.respuesta = req.body.quiz.respuesta;
+	req.quiz.tema      = req.body.quiz.tema;
+
+	req.quiz.validate().then(function (err){
+		if (err){
+			res.render('quizes/edit', {quiz: req.quiz, errores: err.errors});
+		} else {
+			req.quiz.save ( {fields: ["pregunta","respuesta","tema"]}).then (
+				function (){ res.redirect('/quizes');});
+		}
+	});
+};
+
+exports.destroy = function (req,res) {
+	req.quiz.destroy().then (function (){
+		res.redirect('/quizes');
+	}).catch(function (error) {next (error)});
 };
