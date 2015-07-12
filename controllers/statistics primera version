@@ -1,0 +1,37 @@
+var models = require ('../models/models.js');
+
+//El número de preguntas
+//El número de comentarios totales
+//El número medio de comentarios por pregunta
+//El número de preguntas sin comentarios
+//El número de preguntas con comentarios
+
+
+exports.show = function(req,res){
+	// res.render('author', { title: 'Autores' , errors:[]});
+    var contar = 0;
+	var numpreguntas     = 0;
+	var comentarios      = 0;
+	var mediacomentarios = 0;
+	var preguntassincomentarios = 0;
+	var preguntasconcomentarios = 0;
+
+	
+	  models.Quiz.findAll().then(function(quizes){
+		contar=quizes.lengthg;
+	    }).catch(function(error) {contar = -1;next (error); });
+    numpreguntas = contar;
+	models.Comment.findAndCountAll().then(function(comments){
+		comentarios = comments.count;
+	    }).catch(function(error) {next (error); comentarios = -1; });
+	if (numpreguntas > 0) mediacomentarios = comentarios / numpreguntas;
+    
+
+
+    res.render('quizes/statistics',{resnumpreguntas: numpreguntas, 
+    	resnumcomentarios: comentarios, 
+    	resmediacomentarios: mediacomentarios, 
+    	respreguntassincomentarios:preguntassincomentarios, 
+    	respreguntasconcomentarios:preguntasconcomentarios, errors: []});
+	
+};

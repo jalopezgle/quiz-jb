@@ -6,7 +6,7 @@ var models = require ('../models/models.js');
 	})
 	//res.render('quizes/question',{pregunta:'Capital de ITALIA'});
 };*/
-
+/*
 exports.load = function (req, res, next, quizId){
 	models.Quiz.findById(quizId).then (
 		function(quiz){
@@ -16,6 +16,22 @@ exports.load = function (req, res, next, quizId){
 			} else { next (new Error ('NO existe quizId=' + quizId));}
 		}).catch(function(error){next (error);})
 };
+
+*/
+exports.load = function (req, res, next, quizId){
+	models.Quiz.find({
+		where: {id: Number(quizId)},
+		include:[{model: models.Comment}]
+	}).then (
+		function(quiz){
+			if (quiz){
+				 req.quiz = quiz;
+				 next();
+			} else { next (new Error ('NO existe quizId=' + quizId));}
+		}).catch(function(error){next (error);})
+};
+
+
 
 
 

@@ -40,6 +40,24 @@ module.exports = function(sequelize, DataTypes) {
       tema:  {
          type: DataTypes.STRING
       }
+
+
     }
   );
 }
+
+/*
+var friendlyUrlMethods = require('./FriendlyUrl')(['first_name', 'last_name']);
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('User', {
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+  }, {
+    instanceMethods: Sequelize.Utils._.extend({}, friendlyUrlMethods, {
+      countTasks: function() {
+        return this.__factory.associations['Tasks'].target.count({ where: { user_id: this.id } });
+      }
+    });
+  })
+};
+*/

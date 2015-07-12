@@ -103,3 +103,140 @@ Se recomienda utilizar el elemento <select> de HTML en los formularios de creaci
 </select>
  
 Una vez realizada, se deberá guardar una nueva versión (commit) con esta funcionalidad, la cual se desplegará en heroku y se subirá a GitHub.
+
+git clone https://github.com/sqlitebrowser/sqlitebrowser/releases
+
+
+-----------------------------------------------
+
+Funciona todo perfecto menos la página de "autores". A mi me pasó lo mismo y lo que hice fue programarlo correctamente utilizando MVC y pasando el string vacío de errores (que es la razón por la cual te sale ese error).
+
+ 
+
+Saludos y sigue así.
+
+Te da error en la pagina de autor. El error me daba tambien a mi, y es que te falta en index.js:
+
+/* GET author. */
+router.get('/author', function(req, res, next) {
+  res.render('author', {authors: [{ name: 'Ricardo Garcia', urlphoto: '/images/rgr.jpg' }], errors: [] });
+});
+ 
+
+ -------------------------------
+Se pide añadir a la gestión de sesiones un mecanismo de autologout, de forma que si un usuario está inactivo (sin enviar ninguna solicitud HTTP) más de 2 minutos, la sesión se desconecte y deba volver a autenticarse para continuar.
+
+Para implementar esta funcionalidad se recomienda añadir un middleware de auto-logout en app.js que guarde en cada transacción la hora del reloj del sistema en una variable de la sesión a la que está asociada. El middleware debe comprobar en cada transacción con una sesión activa si la han transcurrido más de 2 minutos desde la transacción anterior en dicha sesión, en cuyo caso destruirá la sesión.
+
+Una vez realizados los cambios, debe guardarse una nueva versión (commit).
+
+Ampliación opcional: Añadir una página de estadisticas
+ 
+Las personas interesadas en practicar más con express y MVC, pueden añadir una página de estadisticas. La página de estadisticas estará accesible directamente desde la barra de navegación y mostrará las siguientes informaciones extraidas de la base de datos:
+
+El número de preguntas
+El número de comentarios totales
+El número medio de comentarios por pregunta
+El número de preguntas sin comentarios
+El número de preguntas con comentarios
+Para implementar esta funcionalidad habra que crear una nueva entrada en el interfaz REST de quizes asociada a la ruta
+
+     GET /quizes/statistics
+
+Además habra que crear un nuevo controlador que extraiga la información de la base de datos y una nueva vista que la presente.
+
+Una vez realizado habra que guardar esta funcionalidad en una nueva versión (commit). a continuación se desplegará la rama en heroku y se subirá a GitHub.
+ 
+
+----- configurar openssl
+ set OPENSSL_CONF=C:\Users\javil\Downloads\CURSO HTML5 Y NODEJS\openssl-0.9.8s-i386-win32\openssl.cnf
+
+ ----- comentarios en el foro
+ stat -c '%U:%G %A' ~/.npm
+
+
+var questionsNumber = 0;
+ 2var commentsNumber = 0;
+ 3
+ 4models.Quiz.count()
+ 5.then(function (questionNumber) {
+ 6    questionsNumber = questionNumber;
+ 7    return models.Comment.count();
+ 8})
+ 9.then(function (commentNumber) {
+10    commentsNumber = commentNumber;
+11})
+12.finally(function () {
+13    res.render('estadisticas/index', {quizes: questionNumber , errors: []});
+14});
+
+
+
+
+
+stats.questionNumber = count;
+             Comment.count().then(
+                 function(ccount){
+-                    stats.commentNumber = ccount;                                        
+-                    res.render('stats/stats', {stats: stats, errors: errors});
++                    stats.commentNumber = ccount;                         
++                    Quiz.avgCommentCount(
++                        function(c){
++                            stats.avgComment = c[0].c;
++                            Quiz.noCommentCount(
++                                function(c){
++                                    stats.questionWithoutComments = c[0].c;
++                                    Quiz.commentCount(
++                                        function(c){
++                                            stats.questionWithComments = c[0].c;
+
++                                            res.render('stats/stats', {stats: stats, errors: errors});
++                                        },function(err){
++                                            next(err);
++                                        }                                        
++                                    );
++                                },
++                                function(err){
++                                    next(err);
++                                }                               
++                            );                           
++                        }, function(err){
++                            next(err);
++                        }
++                    );                    
+                 }
+             ).catch(function(error){next(error)});
+         }
+View 19  models/models.js
+ @@ -35,6 +35,25 @@ var Comment = sequelize.import(comment_path);
+ Comment.belongsTo(Quiz);
+ Quiz.hasMany(Comment);
+ 
++Quiz.avgCommentCount = function(callback, cerror){    
++    sequelize.query("SELECT AVG(c) as c FROM (SELECT QuizId, COUNT(DISTINCT b.id) c FROM Quizzes a LEFT JOIN Comments b ON a.id = b.QuizId  GROUP BY a.id ) a")
++    .then(function(c){ callback(c);})
++    .catch(function(error){cerror(error)});
++};
++
++Quiz.noCommentCount = function(callback, cerror){    
++    sequelize.query("SELECT COUNT(*) as c FROM Quizzes a WHERE NOT EXISTS (SELECT 1 FROM Comments b WHERE a.id = b.QuizId) ")
++    .then(function(c){ callback(c);})
++    .catch(function(error){cerror(error)});
++};
++
++Quiz.commentCount = function(callback, cerror){    
++    sequelize.query("SELECT COUNT(*) as c FROM Quizzes a WHERE EXISTS (SELECT 1 FROM Comments b WHERE a.id = b.QuizId) ")
++    .then(function(c){ callback(c);})
++    .catch(function(error){cerror(error)});
++};
++
++
+ exports.Quiz = Quiz;
+ exports.Comment = Comment;
+
+
+
+
+
+
+

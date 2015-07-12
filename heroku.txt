@@ -34,3 +34,6 @@ hs
 h
 doskey /history
 doskey /history > heroku.txt
+
+resetear database
+heroku pg:reset DATABASE
