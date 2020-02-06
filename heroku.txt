@@ -37,3 +37,8 @@ doskey /history > heroku.txt
 
 resetear database
 heroku pg:reset DATABASE
+
+
+subir a github
+
+github push -u origin master

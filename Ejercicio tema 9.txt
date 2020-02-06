@@ -1,0 +1,8 @@
+Sobre el código: en statistics_controller he puesto varios intentos de solución. No podria haberlo sacado sin los comentarios de los foros del resto de compañeros, para el que mire el código igual ve algunas cosas raras fruto de la falta de experiencia con Javascript.
+Sobre las pruebas si no se actualiza los calculos de estadísticas inmediatamente pulsar varias veces el enlace estadísticas.
+Cualquier sugerencia de mejora será bien recibida.
+
+
+https://github.com/jalopezgle/quiz-jb/
+
+https://quiz-2015-jb.herokuapp.com/

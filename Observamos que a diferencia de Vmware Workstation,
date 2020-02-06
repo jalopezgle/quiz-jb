@@ -1,0 +1,19 @@
+Observamos que a diferencia de Vmware Workstation, vmware server o Vmware Player, no todos los
+adaptadores pueden utilizar NAT, en virtual pc solo se puede configurar en el “primer adaptador”, en los demás solo
+disponemos de red local solamente o tarjeta fisica.
+
+
+Local solamente. El equipo invitado no envía ni recibe información del equipo
+anfitrión. 
+
+
+El equipo invitado
+no envía ni recibe
+información a través de la
+Tarjeta de red d E t l d
+Local solamente
+Sin conectar, las tarjetas
+son detectadas y van
+red. Este valor puede
+resultar útil para probar los
+protocolos de red.
